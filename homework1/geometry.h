@@ -1,5 +1,6 @@
 #ifndef GEOMETRY_H_INCLUDED
 #define GEOMETRY_H_INCLUDED
+# define M_PI 3.14159265358979323846
 
 #include <iostream>
 #include <cmath>
@@ -9,12 +10,12 @@ using namespace std;
 
 class Point {
 
-private :
+private:
 
     double x;
     double y;
 
-public :
+public:
 
     Point()
 
@@ -30,7 +31,7 @@ public :
         y = __y;
     }
 
-    Point(const Point &another)
+    Point(const Point& another)
 
     {
         x = another.x;
@@ -53,7 +54,7 @@ public :
         return y;
     }
 
-    Point &operator=(const Point &another) = default;
+    Point& operator=(const Point& another) = default;
 
 };
 
@@ -81,7 +82,7 @@ public:
         }
     }
 
-    PolygonalChain(const PolygonalChain &another) : Point(another)
+    PolygonalChain(const PolygonalChain& another) : Point(another)
 
     {
         counter_of_points = another.counter_of_points;
@@ -96,7 +97,7 @@ public:
         return counter_of_points;
     }
 
-    double range(const Point &point1, const Point &point2) const {
+    double range(const Point& point1, const Point& point2) const {
         return sqrt(pow(point1.getX() - point2.getX(), 2) + pow(point1.getY() - point2.getY(), 2));
     }
 
@@ -109,7 +110,7 @@ public:
         return perimeter_result;
     }
 
-    PolygonalChain &operator=(const PolygonalChain &another) = default;
+    PolygonalChain& operator=(const PolygonalChain& another) = default;
 
 };
 
@@ -119,9 +120,9 @@ public:
 
     ClosedPolygonalChain() : PolygonalChain() {};
 
-    ClosedPolygonalChain(int n, Point *point) : PolygonalChain(n, point) {};
+    ClosedPolygonalChain(int n, Point* point) : PolygonalChain(n, point) {};
 
-    ClosedPolygonalChain(const ClosedPolygonalChain &another) : PolygonalChain(another) {};
+    ClosedPolygonalChain(const ClosedPolygonalChain& another) : PolygonalChain(another) {};
 
     double perimeter() const {
         double perimeter_result = 0;
@@ -136,7 +137,7 @@ public:
         return perimeter_result;
     }
 
-    ClosedPolygonalChain &operator=(const ClosedPolygonalChain &another) = default;
+    ClosedPolygonalChain& operator=(const ClosedPolygonalChain& another) = default;
 };
 
 class Polygon : public ClosedPolygonalChain {
@@ -145,22 +146,23 @@ public:
 
     Polygon() : ClosedPolygonalChain() {};
 
-    Polygon(int n, Point *point) : ClosedPolygonalChain(n, point) {};
+    Polygon(int n, Point* point) : ClosedPolygonalChain(n, point) {};
 
-    Polygon(const Polygon &another) : ClosedPolygonalChain(another) {};
+    Polygon(const Polygon& another) : ClosedPolygonalChain(another) {};
 
     double area() const {
 
-        double area_result = perimeter() / 2;
+        double area_result = 0;
 
-        for (int i = 0; i < getN() - 1; i++) {
-            area_result = area_result * (perimeter() / 2 - range(getPoint(i), getPoint(i + 1)));
-        }
-        area_result = area_result * (perimeter() / 2 - range(getPoint(getN() - 1), getPoint(0)));
-        return sqrt(area_result);
+            for (int i = 0; i < getN()-1; i++) {
+                area_result = area_result + (getPoint(i).getX() + getPoint(i+1).getX()) *              
+                   (getPoint(i).getY() - getPoint(i+1).getY());
+            }
+
+        return abs(area_result) / 2;
     }
 
-    Polygon &operator=(const Polygon &another) = default;
+    Polygon& operator=(const Polygon& another) = default;
 };
 
 class Triangle : public Polygon {
@@ -169,9 +171,9 @@ public:
 
     Triangle() : Polygon() {};
 
-    Triangle(int n, Point *point) : Polygon(n, point) {};
+    Triangle(int n, Point* point) : Polygon(n, point) {};
 
-    Triangle(const Triangle &another) : Polygon(another) {};
+    Triangle(const Triangle& another) : Polygon(another) {};
 
     bool hasRightAngle() const {
 
@@ -197,7 +199,7 @@ public:
 
     }
 
-    Triangle &operator=(const Triangle &another) = default;
+    Triangle& operator=(const Triangle& another) = default;
 };
 
 class Trapezoid : public Polygon {
@@ -206,9 +208,9 @@ public:
 
     Trapezoid() : Polygon() {};
 
-    Trapezoid(int n, Point *point) : Polygon(n, point) {};
+    Trapezoid(int n, Point* point) : Polygon(n, point) {};
 
-    Trapezoid(const Trapezoid &another) : Polygon(another) {};
+    Trapezoid(const Trapezoid& another) : Polygon(another) {};
 
     double height() const {
 
@@ -219,15 +221,15 @@ public:
         part_3 = range(getPoint(2), getPoint(3));
         part_4 = range(getPoint(3), getPoint(0));
 
-        numerator = pow(part_4-part_2, 2)+pow(part_1, 2)-pow(part_3, 2);
-        denominator = 2*(part_4-part_2);
-        fraction = pow(numerator/denominator, 2);
+        numerator = pow(part_4 - part_2, 2) + pow(part_1, 2) - pow(part_3, 2);
+        denominator = 2 * (part_4 - part_2);
+        fraction = pow(numerator / denominator, 2);
 
         return sqrt(pow(part_1, 2) - fraction);
 
     }
 
-    Trapezoid &operator=(const Trapezoid &another) = default;
+    Trapezoid& operator=(const Trapezoid& another) = default;
 };
 
 class RegularPolygon : public Polygon {
@@ -236,9 +238,9 @@ public:
 
     RegularPolygon() : Polygon() {};
 
-    RegularPolygon(int n, Point *point) : Polygon(n, point) {};
+    RegularPolygon(int n, Point* point) : Polygon(n, point) {};
 
-    RegularPolygon(const RegularPolygon &another) : Polygon(another) {};
+    RegularPolygon(const RegularPolygon& another) : Polygon(another) {};
 
     double area() const {
 
@@ -250,7 +252,7 @@ public:
 
     }
 
-    RegularPolygon &operator=(const RegularPolygon &another) = default;
+    RegularPolygon& operator=(const RegularPolygon& another) = default;
 
 };
 
