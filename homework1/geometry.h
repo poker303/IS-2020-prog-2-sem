@@ -7,7 +7,7 @@
 #include <vector>
 
 using namespace std;
-
+//todo cpp
 class Point {
 
 private:
@@ -70,6 +70,7 @@ public:
 
     {
         counter_of_points = 0;
+        //todo wtf is this clear, stop doing it
         a_point.clear();
     }
 
@@ -125,6 +126,7 @@ public:
     ClosedPolygonalChain(const ClosedPolygonalChain& another) : PolygonalChain(another) {};
 
     double perimeter() const {
+        //todo perimeter copy-paste
         double perimeter_result = 0;
 
         for (int i = 0; i < getN(); i++) {
@@ -174,7 +176,7 @@ public:
     Triangle(int n, Point* point) : Polygon(n, point) {};
 
     Triangle(const Triangle& another) : Polygon(another) {};
-
+    //todo without sqrt
     bool hasRightAngle() const {
 
         double side[3];
@@ -191,7 +193,7 @@ public:
                 max_side = side[0];
             }
         }
-
+        //todo return expression
         if (pow(side[0], 2) == (pow(side[1], 2) + pow(side[2], 2)))
             return true;
         else
@@ -232,6 +234,7 @@ public:
     Trapezoid& operator=(const Trapezoid& another) = default;
 };
 
+//todo regular polygon perimeter
 class RegularPolygon : public Polygon {
 
 public:
