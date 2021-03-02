@@ -1,0 +1,15 @@
+Cloning https://github.com/poker303/IS-2020-prog-2-sem/homework1
+Cloning finished
+It's OK
+In file included from main.cpp:1:
+geometry.h: In member function 'double Trapezoid::height() const':
+geometry.h:217:82: warning: unused variable 'expression' [-Wunused-variable]
+  217 |         double part_1, part_2, part_3, part_4, numerator, denominator, fraction, expression;
+      |                                                                                  ^~~~~~~~~~
+main.cpp: In function 'void PolygonsCheck()':
+main.cpp:47:12: warning: deleting object of polymorphic class type 'Trapezoid' which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   47 |     delete trap;
+      |            ^~~~
+
+
+
