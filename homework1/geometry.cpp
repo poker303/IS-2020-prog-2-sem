@@ -32,7 +32,7 @@ double Point::getY() const {
     return y;
 }
 
-Point& Point::operator=(const Point & another) = default;
+Point& Point::operator = (const Point & another) = default;
 
 
 
@@ -80,7 +80,7 @@ double PolygonalChain::perimeter() const {
     return perimeter_result;
 }
 
-PolygonalChain& PolygonalChain::operator=(const PolygonalChain & another) = default;
+PolygonalChain& PolygonalChain::operator = (const PolygonalChain & another) = default;
 
 
 
@@ -96,7 +96,7 @@ double ClosedPolygonalChain::perimeter() const {
     return PolygonalChain::perimeter() + range(getPoint(0), getPoint(getN() - 1));
 }
 
-ClosedPolygonalChain& ClosedPolygonalChain::operator=(const ClosedPolygonalChain & another) = default;
+ClosedPolygonalChain& ClosedPolygonalChain::operator = (const ClosedPolygonalChain & another) = default;
 
 
 
@@ -118,7 +118,7 @@ double Polygon::area() const {
     return abs(area_result) / 2;
 }
 
-Polygon& Polygon::operator=(const Polygon & another) = default;
+Polygon& Polygon::operator = (const Polygon & another) = default;
 
 
 
@@ -149,7 +149,7 @@ bool Triangle::hasRightAngle() const {
 
 }
 
-Triangle& Triangle::operator=(const Triangle & another) = default;
+Triangle& Triangle::operator = (const Triangle & another) = default;
 
 
 Trapezoid::Trapezoid() : Polygon() {}
@@ -175,7 +175,7 @@ double Trapezoid::height() const {
 
 }
 
-Trapezoid& Trapezoid::operator=(const Trapezoid & another) = default;
+Trapezoid& Trapezoid::operator = (const Trapezoid & another) = default;
 
 //fixed regular polygon perimeter
 
@@ -204,4 +204,4 @@ double RegularPolygon::area() const {
 
 }
 
-RegularPolygon& RegularPolygon::operator=(const RegularPolygon & another) = default;
+RegularPolygon& RegularPolygon::operator = (const RegularPolygon & another) = default;
