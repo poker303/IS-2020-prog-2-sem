@@ -22,8 +22,6 @@ public:
 
     ~Polynomial();
 
-    friend stringstream& operator<<(stringstream& out, const Polynomial& another);
-
     Polynomial& operator=(const Polynomial& another);
 
     friend bool operator==(const Polynomial& another1, const Polynomial& another2);
@@ -55,6 +53,8 @@ public:
     int& operator[](int i);
 
     int& operator[](int num) const;
+
+    friend stringstream& operator<<(stringstream& out, const Polynomial& another);
 
     double get(int num);
 };

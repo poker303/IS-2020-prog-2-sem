@@ -40,54 +40,6 @@ Polynomial::Polynomial(const Polynomial& another) {
 
 Polynomial::~Polynomial() = default;
 
-stringstream& operator<<(stringstream & out, const Polynomial & another) {
-
-    int pendingSize = another.size_of_polynomial;
-
-    if (pendingSize == 1 && another.coefss_of_polynomial[0] == 0) {
-        out << "0";
-    }
-
-    else {
-
-        for (int i = pendingSize - 1; i >= 0; i--) {
-
-            if (another.coefss_of_polynomial[i] != 0) {
-
-                if (i < pendingSize - 1 && another.coefss_of_polynomial[i] > 0 &&
-                    !out.str().empty() && out.str().back() != '\n')
-                    out << "+";
-
-                if (another.coefss_of_polynomial[i] == -1 && another.degree_of_polynomial[i] != 0)
-                    out << "-";
-
-                else if (another.coefss_of_polynomial[i] == 1 && another.degree_of_polynomial[i] != 0) {}
-
-                else
-                    out << another.coefss_of_polynomial[i];
-
-                if (another.degree_of_polynomial[i] != 0) {
-                    out << "x";
-                    if (another.degree_of_polynomial[i] != 1)
-                        out << "^" << another.degree_of_polynomial[i];
-                }
-            }
-        }
-    }
-
-    int pending = 0;
-
-    for (int i = 0; i < another.size_of_polynomial; i++) {
-
-        if (another.coefss_of_polynomial[i] == 0)
-            pending++;
-    }
-
-    if (pending == another.size_of_polynomial && out.str().empty())
-        out << "0";
-    return out;
-}
-
 Polynomial& Polynomial::operator=(const Polynomial & another) = default;
 
 bool operator==(const Polynomial & another1, const Polynomial & another2) {
@@ -304,6 +256,54 @@ int& Polynomial::operator[](int num) {
         *this = Polynomial(min, max, pendingcoefs);
         return coefss_of_polynomial[size_of_polynomial - 1];
     }
+}
+
+stringstream& operator<<(stringstream& out, const Polynomial& another) {
+
+    int pendingSize = another.size_of_polynomial;
+
+    if (pendingSize == 1 && another.coefss_of_polynomial[0] == 0) {
+        out << "0";
+    }
+
+    else {
+
+        for (int i = pendingSize - 1; i >= 0; i--) {
+
+            if (another.coefss_of_polynomial[i] != 0) {
+
+                if (i < pendingSize - 1 && another.coefss_of_polynomial[i] > 0 &&
+                    !out.str().empty() && out.str().back() != '\n')
+                    out << "+";
+
+                if (another.coefss_of_polynomial[i] == -1 && another.degree_of_polynomial[i] != 0)
+                    out << "-";
+
+                else if (another.coefss_of_polynomial[i] == 1 && another.degree_of_polynomial[i] != 0) {}
+
+                else
+                    out << another.coefss_of_polynomial[i];
+
+                if (another.degree_of_polynomial[i] != 0) {
+                    out << "x";
+                    if (another.degree_of_polynomial[i] != 1)
+                        out << "^" << another.degree_of_polynomial[i];
+                }
+            }
+        }
+    }
+
+    int pending = 0;
+
+    for (int i = 0; i < another.size_of_polynomial; i++) {
+
+        if (another.coefss_of_polynomial[i] == 0)
+            pending++;
+    }
+
+    if (pending == another.size_of_polynomial && out.str().empty())
+        out << "0";
+    return out;
 }
 
 double Polynomial::get(int num) {
