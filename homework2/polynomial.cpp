@@ -258,12 +258,12 @@ int& Polynomial::operator[](int num) {
     }
 }
 
-stringstream& operator<<(stringstream& out, const Polynomial& another) {
+stringstream& operator<<(stringstream& conclusion, const Polynomial& another) {
 
     int pendingSize = another.size_of_polynomial;
 
     if (pendingSize == 1 && another.coefss_of_polynomial[0] == 0) {
-        out << "0";
+        conclusion << "0";
     }
 
     else {
@@ -273,21 +273,21 @@ stringstream& operator<<(stringstream& out, const Polynomial& another) {
             if (another.coefss_of_polynomial[i] != 0) {
 
                 if (i < pendingSize - 1 && another.coefss_of_polynomial[i] > 0 &&
-                    !out.str().empty() && out.str().back() != '\n')
-                    out << "+";
+                    !conclusion.str().empty() && conclusion.str().back() != '\n')
+                    conclusion << "+";
 
                 if (another.coefss_of_polynomial[i] == -1 && another.degree_of_polynomial[i] != 0)
-                    out << "-";
+                    conclusion << "-";
 
                 else if (another.coefss_of_polynomial[i] == 1 && another.degree_of_polynomial[i] != 0) {}
 
                 else
-                    out << another.coefss_of_polynomial[i];
+                    conclusion << another.coefss_of_polynomial[i];
 
                 if (another.degree_of_polynomial[i] != 0) {
-                    out << "x";
+                    conclusion << "x";
                     if (another.degree_of_polynomial[i] != 1)
-                        out << "^" << another.degree_of_polynomial[i];
+                        conclusion << "^" << another.degree_of_polynomial[i];
                 }
             }
         }
@@ -301,9 +301,9 @@ stringstream& operator<<(stringstream& out, const Polynomial& another) {
             pending++;
     }
 
-    if (pending == another.size_of_polynomial && out.str().empty())
-        out << "0";
-    return out;
+    if (pending == another.size_of_polynomial && conclusion.str().empty())
+        conclusion << "0";
+    return conclusion;
 }
 
 double Polynomial::get(int num) {

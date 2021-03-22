@@ -54,7 +54,7 @@ public:
 
     int& operator[](int num) const;
 
-    friend stringstream& operator<<(stringstream& out, const Polynomial& another);
+    friend stringstream& operator<<(stringstream& conclusion, const Polynomial& another);
 
     double get(int num);
 };
