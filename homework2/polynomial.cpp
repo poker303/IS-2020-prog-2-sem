@@ -44,10 +44,9 @@ Polynomial& Polynomial::operator=(const Polynomial & another) = default;
 
 bool operator==(const Polynomial & another1, const Polynomial & another2) {
 
-    stringstream ss1, ss2;
-    ss1 << another1;
-    ss2 << another2;
-    return ss1.str() == ss2.str();
+    stringstream pol1, pol2;
+    pol1 << another1; pol2 << another2;
+    return pol1.str() == pol2.str();
 }
 
 bool operator!=(const Polynomial & another1, const Polynomial & another2) {
