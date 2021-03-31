@@ -7,20 +7,24 @@
 using namespace std;
 
 class Polynomial {
+
 private:
-    int* degs_of_polynomial;
+
     int* coefss_of_polynomial;
+    int* degs_of_polynomial;
     int size_of_polynomial;
+
 public:
+
     Polynomial();
 
     Polynomial(int min, int max, int* coefs);
 
+    Polynomial defining_sign(Polynomial& new1, const Polynomial& new2, int num) const;
+
     Polynomial(const Polynomial& another);
 
     ~Polynomial();
-
-    friend stringstream& operator<<(stringstream& conclusion, const Polynomial& another);
 
     Polynomial& operator=(const Polynomial& another);
 
@@ -31,8 +35,6 @@ public:
     friend Polynomial operator+(const Polynomial& new1, const Polynomial& new2);
 
     Polynomial operator-() const;
-
-    Polynomial defining_sign(Polynomial& new1, const Polynomial& new2, int num) const;
 
     friend Polynomial operator-(const Polynomial& new1, const Polynomial& new2);
 
@@ -55,6 +57,8 @@ public:
     int operator[](int num) const;
 
     int& operator[](int num);
+
+    friend stringstream& operator<<(stringstream& conclusion, const Polynomial& another);
 
     double get(int num);
 };
