@@ -1,19 +1,17 @@
 #pragma once
+
 #include "cmath"
 #include "sstream"
+#include <algorithm>
 
 using namespace std;
 
 class Polynomial {
-
 private:
-
-    int* degree_of_polynomial;
+    int* degs_of_polynomial;
     int* coefss_of_polynomial;
     int size_of_polynomial;
-
 public:
-
     Polynomial();
 
     Polynomial(int min, int max, int* coefs);
@@ -22,39 +20,41 @@ public:
 
     ~Polynomial();
 
+    friend stringstream& operator<<(stringstream& conclusion, const Polynomial& another);
+
     Polynomial& operator=(const Polynomial& another);
 
-    friend bool operator==(const Polynomial& another1, const Polynomial& another2);
+    friend bool operator==(const Polynomial& new1, const Polynomial& new2);
 
-    friend bool operator!=(const Polynomial& another1, const Polynomial& another2);
+    friend bool operator!=(const Polynomial& new1, const Polynomial& new2);
 
-    friend Polynomial operator+(const Polynomial& another1, const Polynomial& another2);
+    friend Polynomial operator+(const Polynomial& new1, const Polynomial& new2);
 
-    friend Polynomial operator-(const Polynomial& another);
+    Polynomial operator-() const;
 
-    friend Polynomial operator-(const Polynomial& another1, const Polynomial& another2);
+    Polynomial defining_sign(Polynomial& new1, const Polynomial& new2, int num) const;
 
-    friend Polynomial operator+=(Polynomial& another1, const Polynomial& another2);
+    friend Polynomial operator-(const Polynomial& new1, const Polynomial& new2);
 
-    friend Polynomial operator-=(Polynomial& another1, const Polynomial& another2);
+    Polynomial operator+=(const Polynomial& another);
+
+    Polynomial operator-=(const Polynomial& another);
 
     friend Polynomial operator*(const Polynomial& another, int num);
 
     friend Polynomial operator*(int num, const Polynomial& another);
 
-    friend Polynomial operator*(const Polynomial& another1, const Polynomial& another2);
+    friend Polynomial operator*(const Polynomial& new1, const Polynomial& new2);
 
-    friend Polynomial operator/(const Polynomial& another, int num);
+    Polynomial operator/(int num);
 
-    friend Polynomial operator*=(Polynomial& another1, const Polynomial& another2);
+    Polynomial operator*=(const Polynomial& another);
 
-    friend Polynomial operator/=(Polynomial& another, int num);
+    Polynomial operator/=(int num);
 
-    int& operator[](int i);
+    int operator[](int num) const;
 
-    int& operator[](int num) const;
-
-    friend stringstream& operator<<(stringstream& conclusion, const Polynomial& another);
+    int& operator[](int num);
 
     double get(int num);
 };
