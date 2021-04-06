@@ -2,8 +2,8 @@
 
 Polynomial::Polynomial() {
 
-    coefss_of_polynomial = new int[1]{0};
-    degs_of_polynomial = new int[1]{0};
+    coefss_of_polynomial = new int[1]{ 0 };
+    degs_of_polynomial = new int[1]{ 0 };
     size_of_polynomial = 1;
 }
 
@@ -153,7 +153,7 @@ Polynomial operator*(const Polynomial& another, int num) {
         pendingcoefs[i] = another.coefss_of_polynomial[i] * num;
     }
 
-    return Polynomial(another.degs_of_polynomial[0], 
+    return Polynomial(another.degs_of_polynomial[0],
         another.degs_of_polynomial[another.size_of_polynomial - 1], pendingcoefs);
 }
 
@@ -162,24 +162,42 @@ Polynomial operator*(int num, const Polynomial& another) {
 }
 
 Polynomial operator*(const Polynomial& new1, const Polynomial& new2) {
+    Polynomial pending = new1;
+    pending *= new2;
+    return pending;
+}
 
-    int pendingSize = new1.size_of_polynomial * new2.size_of_polynomial;
-    int* pendingcoefs = new int[pendingSize], *pendingDegree = new int[pendingSize];
+Polynomial Polynomial::operator/(int num) {
+
+    auto pending = *this;
+
+    for_each(pending.coefss_of_polynomial,
+        pending.coefss_of_polynomial + pending.size_of_polynomial,
+        [&](int& n) { n /= num; });
+
+    return pending;
+}
+
+//fixed * from *=
+Polynomial Polynomial::operator*=(const Polynomial& another) {
+
+    int pendingSize = size_of_polynomial * another.size_of_polynomial;
+    int* pendingcoefs = new int[pendingSize], * pendingDegree = new int[pendingSize];
 
     int ordinal_num = 0;
 
-    for (int i = 0; i < new1.size_of_polynomial; i++) {
+    for (int i = 0; i < size_of_polynomial; i++) {
 
-        for (int j = 0; j < new2.size_of_polynomial; j++) {
+        for (int j = 0; j < another.size_of_polynomial; j++) {
 
-            pendingcoefs[ordinal_num] = new1.coefss_of_polynomial[i] * new2.coefss_of_polynomial[j];
-            pendingDegree[ordinal_num] = new1.degs_of_polynomial[i] + new2.degs_of_polynomial[j];
+            pendingcoefs[ordinal_num] = coefss_of_polynomial[i] * another.coefss_of_polynomial[j];
+            pendingDegree[ordinal_num] = degs_of_polynomial[i] + another.degs_of_polynomial[j];
             ordinal_num++;
         }
     }
 
     int size = pendingDegree[pendingSize - 1] - pendingDegree[0] + 1;
-    int* resultDegree = new int[size], *resultcoefs = new int[size];
+    int* resultDegree = new int[size], * resultcoefs = new int[size];
     ordinal_num = pendingDegree[0];
 
     for (int i = 0; i < size; i++) {
@@ -197,26 +215,7 @@ Polynomial operator*(const Polynomial& new1, const Polynomial& new2) {
                 resultcoefs[i] += pendingcoefs[j];
         }
     }
-
-    return Polynomial(pendingDegree[0], pendingDegree[pendingSize - 1], resultcoefs);
-}
-
-Polynomial Polynomial::operator/(int num) {
-
-    auto pending = *this;
-
-    for_each(pending.coefss_of_polynomial, 
-        pending.coefss_of_polynomial + pending.size_of_polynomial,      
-        [&](int& n) { n /= num; });
-
-    return pending;
-}
-
-//todo * from *=
-Polynomial Polynomial::operator*=(const Polynomial& another) {
-
-    *this = *this * another;
-
+    *this = Polynomial(pendingDegree[0], pendingDegree[pendingSize - 1], resultcoefs);
     return *this;
 }
 
@@ -226,27 +225,14 @@ Polynomial Polynomial::operator/=(int num) {
 
     return *this;
 }
-
+//fixed O(1)
 int Polynomial::operator[](int num) const {
 
-    if (num >= degs_of_polynomial[0] && num <= degs_of_polynomial[size_of_polynomial - 1]) {
-
-        int ordinal_num = 0;
-        //todo O(1)
-        for (int i = 0; i < size_of_polynomial; i++) {
-
-            if (num == degs_of_polynomial[i]) {
-                ordinal_num = i;
-                break;
-            }
-
-        }
-
-        return coefss_of_polynomial[ordinal_num];
-    }
-
-    else return 0;
+    if (num < degs_of_polynomial[0] || num > degs_of_polynomial[size_of_polynomial - 1])
+        return 0;
+    return coefss_of_polynomial[num - degs_of_polynomial[0]];
 }
+
 
 int& Polynomial::operator[](int num) {
 
@@ -309,7 +295,7 @@ stringstream& operator<<(stringstream& conclusion, const Polynomial& another) {
 
             if (another.coefss_of_polynomial[i] != 0) {
 
-                if (i < pendingSize - 1 && another.coefss_of_polynomial[i] > 0 
+                if (i < pendingSize - 1 && another.coefss_of_polynomial[i] > 0
                     && !conclusion.str().empty() && conclusion.str().back() != '\n')
                     conclusion << "+";
 
