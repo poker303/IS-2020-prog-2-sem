@@ -212,6 +212,7 @@ Polynomial Polynomial::operator/(int num) {
     return pending;
 }
 
+//todo * from *=
 Polynomial Polynomial::operator*=(const Polynomial& another) {
 
     *this = *this * another;
@@ -231,7 +232,7 @@ int Polynomial::operator[](int num) const {
     if (num >= degs_of_polynomial[0] && num <= degs_of_polynomial[size_of_polynomial - 1]) {
 
         int ordinal_num = 0;
-
+        //todo O(1)
         for (int i = 0; i < size_of_polynomial; i++) {
 
             if (num == degs_of_polynomial[i]) {
