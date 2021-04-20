@@ -10,10 +10,12 @@ double get_dist(std::pair<double, double> stop_coord1, std::pair<double, double>
 
     auto [x_2, y_2] = stop_coord2;
     auto& [xr_2, yr_2] = stop_coord2;
+    //fixed strange constants CAPS
+    auto LENGTH_OF_THE_MERIDIAN_ARC_IN_ONE_DEGREE = 111.0;
+    auto LATITUDE = 58;
 
-    //todo strange constants CAPS
-    double height = (xr_1 - xr_2) * 111.0;
-    double width = (yr_1 - yr_2) * 58;
+    double height = (xr_1 - xr_2) * LENGTH_OF_THE_MERIDIAN_ARC_IN_ONE_DEGREE;
+    double width = (yr_1 - yr_2) * LATITUDE;
     return sqrt(pow(height, 2) + pow(width, 2));
 }
 
