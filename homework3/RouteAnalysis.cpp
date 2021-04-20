@@ -11,7 +11,7 @@ double get_dist(std::pair<double, double> stop_coord1, std::pair<double, double>
     auto [x_2, y_2] = stop_coord2;
     auto& [xr_2, yr_2] = stop_coord2;
 
-    //todo strange constants
+    //todo strange constants CAPS
     double height = (xr_1 - xr_2) * 111.0;
     double width = (yr_1 - yr_2) * 58;
     return sqrt(pow(height, 2) + pow(width, 2));
