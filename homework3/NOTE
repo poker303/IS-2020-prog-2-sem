@@ -1,0 +1,25 @@
+Pulling https://github.com/poker303/IS-2020-prog-2-sem/homework3
+Pull finished
+RouteAnalysis.cpp: In function 'double get_dist(std::pair<double, double>, std::pair<double, double>)':
+RouteAnalysis.cpp:19:17: error: 'pow' was not declared in this scope
+   19 |     return sqrt(pow(height, 2) + pow(width, 2));
+      |                 ^~~
+RouteAnalysis.cpp:19:12: error: 'sqrt' was not declared in this scope
+   19 |     return sqrt(pow(height, 2) + pow(width, 2));
+      |            ^~~~
+RouteAnalysis.cpp: In function 'double Prim(const std::vector<std::pair<double, double> >&)':
+RouteAnalysis.cpp:32:27: error: 'FLT_MAX' was not declared in this scope
+   32 |         double min_dist = FLT_MAX;
+      |                           ^~~~~~~
+RouteAnalysis.cpp:4:1: note: 'FLT_MAX' is defined in header '<cfloat>'; did you forget to '#include <cfloat>'?
+    3 | #include <queue>
+  +++ |+#include <cfloat>
+    4 | 
+main.cpp:9:10: fatal error: pugixml.hpp: No such file or directory
+    9 | #include "pugixml.hpp"
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make: *** [makefile:2: all] Error 1
+
+
+
