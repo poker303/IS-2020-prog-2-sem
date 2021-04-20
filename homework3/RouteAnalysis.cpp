@@ -1,6 +1,8 @@
 #define _USE_MATH_DEFINES
 #include "RouteAnalysis.hpp"
 #include <queue>
+#include <cmath>
+#include <cfloat>
 
 //auxiliary functions
 double get_dist(std::pair<double, double> stop_coord1, std::pair<double, double> stop_coord2)
