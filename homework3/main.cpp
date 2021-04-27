@@ -84,6 +84,7 @@ int main()
 
 	for (const auto& temp_type : types)
 	{
+		//todo first second
 		max_type_s_route[temp_type].first = "";
 		max_type_s_route[temp_type].second = 0.0;
 

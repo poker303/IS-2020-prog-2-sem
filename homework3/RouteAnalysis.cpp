@@ -13,6 +13,7 @@ double get_dist(std::pair<double, double> stop_coord1, std::pair<double, double>
     auto [x_2, y_2] = stop_coord2;
     auto& [xr_2, yr_2] = stop_coord2;
     //fixed strange constants CAPS
+    //todo mb const?
     auto LENGTH_OF_THE_MERIDIAN_ARC_IN_ONE_DEGREE = 111.0;
     auto LATITUDE = 58;
 
@@ -116,6 +117,7 @@ void Stop::set_routes(const std::string& str)
 void Stop::set_coords(const std::string& str)
 {
     std::vector<std::string> tokens = string_splitting(str, ',');
+    //todo stof
     coords.first = atof(tokens[0].c_str());
     coords.second = atof(tokens[1].c_str());
 }
