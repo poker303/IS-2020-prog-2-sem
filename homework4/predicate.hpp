@@ -49,10 +49,10 @@ bool oneOf(InputIt start, InputIt end, Pred_Type prd) {
     }
     return flag;
 }
-
-//todo use default template argument std::less
-template <typename InputIt, typename Comp_Type>
-bool isSorted(InputIt start, InputIt end, Comp_Type cmp) {
+//fixed use default template argument std::less
+template <typename InputIt, typename Comp_Type = std::less<
+    typename std::iterator_traits<InputIt>::value_type>>
+bool isSorted(InputIt start, InputIt end, Comp_Type cmp = Comp_Type()) {
 
     InputIt first1 = start;
     InputIt second1 = ++start;
@@ -60,20 +60,6 @@ bool isSorted(InputIt start, InputIt end, Comp_Type cmp) {
     while (second1 != end) {
         if (!cmp(*first1, *second1)) return false;
         first1++; second1++;
-    }
-
-    return true;
-}
-
-template <typename InputIt>
-bool isSorted(InputIt start, InputIt end) {
-
-    InputIt first2 = start;
-    InputIt second2 = ++start;
-
-    while (second2 != end) {
-        if ((*first2 < *second2) == 0) return false;
-        first2++; second2++;
     }
 
     return true;
