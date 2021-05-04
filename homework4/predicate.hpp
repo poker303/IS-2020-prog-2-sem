@@ -50,6 +50,7 @@ bool oneOf(InputIt start, InputIt end, Pred_Type prd) {
     return flag;
 }
 
+//todo use default template argument std::less
 template <typename InputIt, typename Comp_Type>
 bool isSorted(InputIt start, InputIt end, Comp_Type cmp) {
 
