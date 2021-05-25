@@ -109,16 +109,13 @@ class CircularBuffer
 {
 private:
 
-    size_t temp_buf_size;         
-    size_t head_x;         
-    size_t tail_x;         
-    size_t cap_buf;     
+    size_t temp_buf_size, head_x, tail_x, cap_buf;    
     T* elements;
 
 public:
 
     CircularBuffer(const CircularBuffer&);
-    CircularBuffer(size_t capacity = 10);
+    CircularBuffer(size_t capacity = 15);
     ~CircularBuffer();
 
     CircularBuffer& operator=(const CircularBuffer&);
@@ -126,10 +123,10 @@ public:
     T& operator[](size_t);
 
     void changeCapacity(size_t);
-    void addLast(const T&);
-    void delLast();
     void addFirst(const T&);
+    void addLast(const T&);
     void delFirst();
+    void delLast();
     const T& first() const;
     const T& last() const;
     size_t size() const;
