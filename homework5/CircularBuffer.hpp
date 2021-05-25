@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//todo warnings
 template <class T>
 class Iterator
 {
@@ -185,6 +186,7 @@ T CircularBuffer<T>::operator[](size_t index) const
         return elements[(head_x + (index % temp_buf_size)) % cap_buf];
 }
 
+//todo more information in exceptions
 template<typename T>
 T& CircularBuffer<T>::operator[](size_t index)
 {
