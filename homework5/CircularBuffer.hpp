@@ -19,19 +19,18 @@ public:
 private:
 
     pointer data;
-    size_t capacity_size, beginning, index;
+    size_t capacity_size;
+    size_t index;
+    size_t beginning;
 
 public:
 
-    Iterator(pointer data_x, size_t capacity_size_x, size_t index_x, size_t head_x) :
+    Iterator(pointer _data, size_t _capacity_size, size_t _index, size_t _head) 
+        : data{ _data }, capacity_size{ _capacity_size }, index{ _index }, beginning{ _head }
+    {}
 
-        data{ data_x },
-        capacity_size{ capacity_size_x },
-        index{ index_x },
-        beginning{ head_x }{}
-
-    pointer location() {
-        return loc_of(data[(beginning + index) % capacity_size]);
+    pointer address() {
+        return std::addressof(data[(beginning + index) % capacity_size]);
     }
 
     bool operator==(const Iterator& right_side) const {
@@ -53,20 +52,22 @@ public:
 
     Iterator& operator++()
     {
-        index++; return *this;
+        index++; 
+        return *this;
     }
     Iterator& operator--()
     {
-        index--; return *this;
+        index--; 
+        return *this;
     }
 
 
-    Iterator  operator++(int) {
+    Iterator operator++(int) {
         Iterator temp = *this;
         ++(*this);
         return temp;
     }
-    Iterator  operator--(int) {
+    Iterator operator--(int) {
         Iterator temp = *this;
         --(*this);
         return temp;
@@ -102,17 +103,14 @@ public:
         return *this;
     }
 
-    reference operator[](difference_type n) { return *(Iterator{ *this }.operator+=(n)); }
+    reference operator[](difference_type n) { 
+        return *(Iterator{ *this }.operator+=(n)); 
+    }
 };
 
 template<class T>
 class CircularBuffer
 {
-private:
-
-    size_t temp_buf_size, head_x, tail_x, cap_buf;
-    T* elements;
-
 public:
 
     CircularBuffer(const CircularBuffer&);
@@ -136,41 +134,48 @@ public:
     Iterator<T> end();
     Iterator<const T> begin() const;
     Iterator<const T> end() const;
+private:
+
+    size_t temp_buf_size;
+    size_t _head;
+    size_t tail_x;
+    size_t _capacity;
+    T* _elements;
 };
 
 
 template<typename T>
 CircularBuffer<T>::CircularBuffer(size_t capacity) :
     temp_buf_size{ 0 },
-    head_x{ 0 },
+    _head{ 0 },
     tail_x{ 0 },
-    cap_buf{ capacity + 1 },
-    elements{ new T[capacity + 1] } {}
+    _capacity{ capacity + 1 },
+    _elements{ new T[capacity + 1] } {}
 
 
 template<typename T>
 CircularBuffer<T>::CircularBuffer(const CircularBuffer& another) :
     temp_buf_size{ another.temp_buf_size },
-    head_x{ another.head_x },
+    _head{ another._head },
     tail_x{ 0 },
-    cap_buf{ another.cap_buf },
-    elements{ new T[temp_buf_size] }
+    _capacity{ another._capacity },
+    _elements{ new T[temp_buf_size] }
 {
     for (size_t i = 0; i < temp_buf_size; i++) { (*this)[i] = another[i]; }
 }
 
 template<typename T>
-CircularBuffer<T>::~CircularBuffer() { delete[] elements; }
+CircularBuffer<T>::~CircularBuffer() { delete[] _elements; }
 
 template<typename T>
 CircularBuffer<T>& CircularBuffer<T>::operator=(const CircularBuffer<T>& another)
 {
     if (this == &another) return *this;
 
-    delete[] elements;
+    delete[] _elements;
     temp_buf_size = another.size;
-    head_x = another.head_x;
-    elements = new T[temp_buf_size];
+    _head = another._head;
+    _elements = new T[temp_buf_size];
     for (size_t i = 0; i < temp_buf_size; i++) { (*this)[i] = another[i]; }
 
     return *this;
@@ -184,7 +189,7 @@ T CircularBuffer<T>::operator[](size_t index) const
     if (index >= temp_buf_size)
         throw std::range_error("given index is out of range, index range from 0 to " + std::to_string(this->temp_buf_size-1) +
         "but input index is" + std::to_string(index));
-    return elements[(head_x + (index % temp_buf_size)) % cap_buf];
+    return _elements[(_head + (index % temp_buf_size)) % _capacity];
 }
 
 //fixed more information in exceptions
@@ -196,35 +201,35 @@ T& CircularBuffer<T>::operator[](size_t index)
     if (index >= temp_buf_size)
         throw std::range_error("given index is out of range, index range from 0 to " + std::to_string(this->temp_buf_size - 1) +
             " but input index is " + std::to_string(index));
-    return elements[(head_x + (index % temp_buf_size)) % cap_buf];
+    return _elements[(_head + (index % temp_buf_size)) % _capacity];
 }
 
 template<typename T>
 void CircularBuffer<T>::changeCapacity(size_t capacity)
 {
-    if (capacity + 1 < cap_buf)
-        throw std::length_error("cap_buf can\'t be less");
+    if (capacity + 1 < _capacity)
+        throw std::length_error("_capacity can\'t be less");
 
     T* temp = new T[capacity + 1];
 
     for (size_t i = 0; i < temp_buf_size; i++) {
         temp[i] = (*this)[i];
     }
-    delete[] elements;
-    elements = temp;
-    cap_buf = capacity + 1;
-    head_x = 0;
-    tail_x = temp_buf_size % cap_buf;
+    delete[] _elements;
+    _elements = temp;
+    _capacity = capacity + 1;
+    _head = 0;
+    tail_x = temp_buf_size % _capacity;
 }
 
 template<typename T>
 void CircularBuffer<T>::addFirst(const T& first_element)
 {
-    head_x = (cap_buf + head_x - 1) % cap_buf;
-    elements[head_x] = first_element;
+    _head = (_capacity + _head - 1) % _capacity;
+    _elements[_head] = first_element;
 
-    if (temp_buf_size == cap_buf - 1) {
-        tail_x = (tail_x - 1 + cap_buf) % cap_buf;
+    if (temp_buf_size == _capacity - 1) {
+        tail_x = (tail_x - 1 + _capacity) % _capacity;
     }
     else {
         temp_buf_size++;
@@ -234,11 +239,11 @@ void CircularBuffer<T>::addFirst(const T& first_element)
 template<typename T>
 void CircularBuffer<T>::addLast(const T& last_element)
 {
-    elements[tail_x] = last_element;
-    tail_x = (tail_x + 1) % cap_buf;
+    _elements[tail_x] = last_element;
+    tail_x = (tail_x + 1) % _capacity;
 
-    if (temp_buf_size == cap_buf - 1) {
-        head_x = (head_x + 1) % cap_buf;
+    if (temp_buf_size == _capacity - 1) {
+        _head = (_head + 1) % _capacity;
     }
     else {
         temp_buf_size++;
@@ -250,7 +255,7 @@ void CircularBuffer<T>::delFirst()
 {
     if (temp_buf_size > 0) {
         temp_buf_size--;
-        head_x = (head_x + 1) % cap_buf;
+        _head = (_head + 1) % _capacity;
     }
 }
 
@@ -259,20 +264,20 @@ void CircularBuffer<T>::delLast()
 {
     if (temp_buf_size > 0) {
         temp_buf_size--;
-        tail_x = (tail_x + cap_buf - 1) % cap_buf;
+        tail_x = (tail_x + _capacity - 1) % _capacity;
     }
 }
 
 template<typename T>
 const T& CircularBuffer<T>::first() const
 {
-    return elements[head_x];
+    return _elements[_head];
 }
 
 template<typename T>
 const T& CircularBuffer<T>::last() const
 {
-    return elements[(head_x + temp_buf_size - 1) % cap_buf];
+    return _elements[(_head + temp_buf_size - 1) % _capacity];
 }
 
 template<typename T>
@@ -284,23 +289,23 @@ size_t CircularBuffer<T>::size() const
 template<typename T>
 Iterator<const T> CircularBuffer<T>::begin() const
 {
-    return Iterator<const T>{ elements, cap_buf, 0, head_x };
+    return Iterator<const T>{ _elements, _capacity, 0, _head };
 }
 
 template<typename T>
 Iterator<const T> CircularBuffer<T>::end() const
 {
-    return Iterator<const T>{ elements, cap_buf, temp_buf_size, head_x };
+    return Iterator<const T>{ _elements, _capacity, temp_buf_size, _head };
 }
 
 template<typename T>
 Iterator<T> CircularBuffer<T>::begin()
 {
-    return Iterator<T>{ elements, cap_buf, 0, head_x };
+    return Iterator<T>{ _elements, _capacity, 0, _head };
 }
 
 template<typename T>
 Iterator<T> CircularBuffer<T>::end()
 {
-    return Iterator<T>{ elements, cap_buf, temp_buf_size, head_x };
+    return Iterator<T>{ _elements, _capacity, temp_buf_size, _head };
 }
