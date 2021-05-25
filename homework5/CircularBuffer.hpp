@@ -30,7 +30,7 @@ public:
         beginning{ head_x }{}
 
     pointer location() { 
-        return locationof(data[(beginning + index) % capacity_size]);
+        return loc_of(data[(beginning + index) % capacity_size]);
     }
 
     bool operator==(const Iterator& right_side) const { 
