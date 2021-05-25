@@ -1,0 +1,36 @@
+Pulling https://github.com/poker303/IS-2020-prog-2-sem/homework5
+Pull finished
+It's compiled
+trying to work with an empty container
+2
+given index is out of range
+Everything is ok
+
+In file included from main.cpp:10:
+CircularBuffer.hpp: In instantiation of 'Iterator<T>::Iterator(Iterator<T>::pointer, size_t, size_t, size_t) [with T = const int; Iterator<T>::pointer = const int*; Iterator<T>::value_type = const int; size_t = unsigned int]':
+CircularBuffer.hpp:276:58:   required from 'Iterator<const T> CircularBuffer<T>::begin() const [with T = int]'
+main.cpp:65:30:   required from here
+CircularBuffer.hpp:21:38: warning: 'Iterator<const int>::index' will be initialized after [-Wreorder]
+   21 |     size_t capacity_size, beginning, index;
+      |                                      ^~~~~
+CircularBuffer.hpp:21:27: warning:   'size_t Iterator<const int>::beginning' [-Wreorder]
+   21 |     size_t capacity_size, beginning, index;
+      |                           ^~~~~~~~~
+CircularBuffer.hpp:25:5: warning:   when initialized here [-Wreorder]
+   25 |     Iterator(pointer data_x, size_t capacity_size_x, size_t index_x, size_t head_x):
+      |     ^~~~~~~~
+CircularBuffer.hpp: In instantiation of 'Iterator<T>::Iterator(Iterator<T>::pointer, size_t, size_t, size_t) [with T = int; Iterator<T>::pointer = int*; Iterator<T>::value_type = int; size_t = unsigned int]':
+CircularBuffer.hpp:284:52:   required from 'Iterator<T> CircularBuffer<T>::begin() [with T = int]'
+main.cpp:191:15:   required from here
+CircularBuffer.hpp:21:38: warning: 'Iterator<int>::index' will be initialized after [-Wreorder]
+   21 |     size_t capacity_size, beginning, index;
+      |                                      ^~~~~
+CircularBuffer.hpp:21:27: warning:   'size_t Iterator<int>::beginning' [-Wreorder]
+   21 |     size_t capacity_size, beginning, index;
+      |                           ^~~~~~~~~
+CircularBuffer.hpp:25:5: warning:   when initialized here [-Wreorder]
+   25 |     Iterator(pointer data_x, size_t capacity_size_x, size_t index_x, size_t head_x):
+      |     ^~~~~~~~
+
+
+
