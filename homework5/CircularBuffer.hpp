@@ -201,7 +201,7 @@ template<typename T>
 void CircularBuffer<T>::changeCapacity(size_t capacity)
 {
     if (capacity + 1 < cap_buf)
-        throw std::length_error("cap_buf cann\'t be less");
+        throw std::length_error("cap_buf can\'t be less");
 
     T* temp = new T[capacity + 1];
 
