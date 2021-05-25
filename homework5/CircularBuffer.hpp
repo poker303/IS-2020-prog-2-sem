@@ -4,7 +4,7 @@
 
 using namespace std;
 
-//todo warnings
+//fixed warnings
 template <class T>
 class Iterator
 {
@@ -23,30 +23,30 @@ private:
 
 public:
 
-    Iterator(pointer data_x, size_t capacity_size_x, size_t index_x, size_t head_x): 
+    Iterator(pointer data_x, size_t capacity_size_x, size_t index_x, size_t head_x) :
 
-        data{ data_x }, 
-        capacity_size{ capacity_size_x }, 
-        index{ index_x }, 
+        data{ data_x },
+        capacity_size{ capacity_size_x },
+        index{ index_x },
         beginning{ head_x }{}
 
-    pointer location() { 
+    pointer location() {
         return loc_of(data[(beginning + index) % capacity_size]);
     }
 
-    bool operator==(const Iterator& right_side) const { 
-        return index == right_side.index; 
+    bool operator==(const Iterator& right_side) const {
+        return index == right_side.index;
     }
 
-    bool operator!=(const Iterator& right_side) const { 
-        return !operator==(right_side); 
+    bool operator!=(const Iterator& right_side) const {
+        return !operator==(right_side);
     }
 
-    reference operator*() { 
+    reference operator*() {
         return data[(beginning + index) % capacity_size];
     }
 
-    pointer operator->() { 
+    pointer operator->() {
         return  data + (beginning + index) % capacity_size;
     }
 
@@ -61,25 +61,25 @@ public:
     }
 
 
-    Iterator  operator++(int) { 
-        Iterator temp = *this; 
-          ++(*this); 
-        return temp; 
+    Iterator  operator++(int) {
+        Iterator temp = *this;
+        ++(*this);
+        return temp;
     }
-    Iterator  operator--(int) { 
-        Iterator temp = *this; 
-          --(*this); 
-        return temp; 
+    Iterator  operator--(int) {
+        Iterator temp = *this;
+        --(*this);
+        return temp;
     }
 
 
     Iterator operator+(difference_type n) const {
-        Iterator temp = *this; 
-        return temp.operator+=(n); 
+        Iterator temp = *this;
+        return temp.operator+=(n);
     }
     Iterator operator-(difference_type n) const {
-        Iterator temp = *this; 
-        return temp.operator-=(n); 
+        Iterator temp = *this;
+        return temp.operator-=(n);
     }
 
     friend Iterator operator+(difference_type n, const Iterator& it) { return it.operator+(n); }
@@ -110,13 +110,13 @@ class CircularBuffer
 {
 private:
 
-    size_t temp_buf_size, head_x, tail_x, cap_buf;    
+    size_t temp_buf_size, head_x, tail_x, cap_buf;
     T* elements;
 
 public:
 
     CircularBuffer(const CircularBuffer&);
-    CircularBuffer(size_t capacity = 15);
+    CircularBuffer(size_t capacity = 10);
     ~CircularBuffer();
 
     CircularBuffer& operator=(const CircularBuffer&);
@@ -141,9 +141,9 @@ public:
 
 template<typename T>
 CircularBuffer<T>::CircularBuffer(size_t capacity) :
-    temp_buf_size{0},
-    head_x{0},
-    tail_x{0},
+    temp_buf_size{ 0 },
+    head_x{ 0 },
+    tail_x{ 0 },
     cap_buf{ capacity + 1 },
     elements{ new T[capacity + 1] } {}
 
@@ -152,7 +152,7 @@ template<typename T>
 CircularBuffer<T>::CircularBuffer(const CircularBuffer& another) :
     temp_buf_size{ another.temp_buf_size },
     head_x{ another.head_x },
-    tail_x{0},
+    tail_x{ 0 },
     cap_buf{ another.cap_buf },
     elements{ new T[temp_buf_size] }
 {
@@ -179,21 +179,23 @@ CircularBuffer<T>& CircularBuffer<T>::operator=(const CircularBuffer<T>& another
 template<typename T>
 T CircularBuffer<T>::operator[](size_t index) const
 {
-        if (temp_buf_size == 0)
-            throw std::out_of_range("trying to work with an empty container");
-        if (index >= temp_buf_size)
-            throw std::out_of_range("given index is out of range");
-        return elements[(head_x + (index % temp_buf_size)) % cap_buf];
+    if (temp_buf_size == 0)
+        throw std::out_of_range("trying to work with an empty container");
+    if (index >= temp_buf_size)
+        throw std::range_error("given index is out of range, index range from 0 to " + std::to_string(this->temp_buf_size-1) +
+        "but input index is" + std::to_string(index));
+    return elements[(head_x + (index % temp_buf_size)) % cap_buf];
 }
 
-//todo more information in exceptions
+//fixed more information in exceptions
 template<typename T>
 T& CircularBuffer<T>::operator[](size_t index)
 {
     if (temp_buf_size == 0)
         throw std::out_of_range("trying to work with an empty container");
     if (index >= temp_buf_size)
-        throw std::out_of_range("given index is out of range");
+        throw std::range_error("given index is out of range, index range from 0 to " + std::to_string(this->temp_buf_size - 1) +
+            " but input index is " + std::to_string(index));
     return elements[(head_x + (index % temp_buf_size)) % cap_buf];
 }
 
@@ -263,28 +265,42 @@ void CircularBuffer<T>::delLast()
 
 template<typename T>
 const T& CircularBuffer<T>::first() const
-{ return elements[head_x]; }
+{
+    return elements[head_x];
+}
 
 template<typename T>
 const T& CircularBuffer<T>::last() const
-{ return elements[(head_x + temp_buf_size - 1) % cap_buf]; }
+{
+    return elements[(head_x + temp_buf_size - 1) % cap_buf];
+}
 
 template<typename T>
 size_t CircularBuffer<T>::size() const
-{ return temp_buf_size; }
+{
+    return temp_buf_size;
+}
 
 template<typename T>
 Iterator<const T> CircularBuffer<T>::begin() const
-{ return Iterator<const T>{ elements, cap_buf, 0, head_x }; }
+{
+    return Iterator<const T>{ elements, cap_buf, 0, head_x };
+}
 
 template<typename T>
 Iterator<const T> CircularBuffer<T>::end() const
-{ return Iterator<const T>{ elements, cap_buf, temp_buf_size, head_x }; }
+{
+    return Iterator<const T>{ elements, cap_buf, temp_buf_size, head_x };
+}
 
 template<typename T>
 Iterator<T> CircularBuffer<T>::begin()
-{ return Iterator<T>{ elements, cap_buf, 0, head_x }; }
+{
+    return Iterator<T>{ elements, cap_buf, 0, head_x };
+}
 
 template<typename T>
 Iterator<T> CircularBuffer<T>::end()
-{ return Iterator<T>{ elements, cap_buf, temp_buf_size, head_x }; }
+{
+    return Iterator<T>{ elements, cap_buf, temp_buf_size, head_x };
+}
